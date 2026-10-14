@@ -1,0 +1,7 @@
+[
+  {"id":"determination_quote","category":"台词化表达","pattern":"(?:充满|充滿|filled\\s+with).{0,8}(?:决心|決心|determination)","note":"台词引用也可能是认真感想，需要人工区分语境。"},
+  {"id":"bad_time_quote","category":"台词化表达","pattern":"(?:bad\\s+time|糟糕的时光|美好的一天.{0,20}(?:鸟儿|花儿))","note":"引用与玩梗并非等价。"},
+  {"id":"sans_identity","category":"角色模仿","pattern":"(?:我是|我就是|i\\s+am|i'm)\\s*(?:sans|杉斯|衫斯)|骨头.{0,6}审判|审判.{0,6}骨头","note":"角色名称单独出现不触发。"},
+  {"id":"ironic_duration","category":"反讽句式","pattern":"(?:不好玩|一般般|垃圾|无聊).{0,18}(?:只玩|才玩|玩了).{0,8}(?:小时|小時|h\\b)","note":"仅凭文本句式，不用真实游玩时长或投票作标签。"},
+  {"id":"like_template","category":"求赞模板","pattern":"(?:点|给|送|每).{0,5}(?:一个赞|点赞|赞赞|一个赞赏)|(?:摸|喂).{0,6}(?:小猫|猫咪|猫猫)","note":"互动模板候选，未必属于游戏专属梗。"}
+]

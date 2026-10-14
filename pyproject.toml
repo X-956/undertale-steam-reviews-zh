@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "steam-reviews-zh"
+version = "0.1.0"
+description = "UNDERTALE 中文 Steam 评论：采集、主题聚类、玩梗候选与互动分析"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+dependencies = [
+  "numpy>=1.26,<3", "pandas>=2.2,<3", "scikit-learn>=1.4,<2",
+  "jieba==0.42.1", "plotly>=5.24,<7"
+]
+
+[project.scripts]
+steam-reviews-zh = "steam_reviews_zh.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["steam_reviews_zh*"]
+
+[tool.setuptools.package-data]
+steam_reviews_zh = ["assets/*.txt", "assets/*.json"]
