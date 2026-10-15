@@ -9,6 +9,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+from .console import print_message
+
 ENDPOINT = "https://api.steampowered.com/IUserReviewsService/GetAppReviews/v1/"
 
 
@@ -154,7 +156,7 @@ def collect(output, appid=391540, language="schinese", max_reviews=1000,
             state["cursor"] = next_cursor
             state["stop_reason"] = "limit" if max_reviews and len(seen) >= max_reviews else "in_progress"
         write_json(metadata_path, state)
-        print(f"已采集 {len(seen)} 条评论（第 {state['pages']} 页）", flush=True)
+        print_message(f"已采集 {len(seen)} 条评论（第 {state['pages']} 页）")
         if state["complete"] or state["stop_reason"] == "repeated_or_missing_cursor":
             break
         if not max_reviews or len(seen) < max_reviews:

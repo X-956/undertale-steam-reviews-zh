@@ -1,13 +1,15 @@
+import io
 import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import pandas as pd
 
 from steam_reviews_zh.analysis import analyze, cluster_topics, evaluate_labels, export_csv
 from steam_reviews_zh.api import collect, read_records
-from steam_reviews_zh.cli import create_demo
+from steam_reviews_zh.cli import create_demo, main
 from steam_reviews_zh.features import make_features, meme_candidates
 
 
@@ -17,6 +19,22 @@ def review(number, text="音乐很好听", **extra):
 
 
 class AcquisitionTests(unittest.TestCase):
+    def test_collection_and_cli_work_with_windows_cp1252_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "reviews.jsonl"
+            buffer = io.BytesIO()
+            with io.TextIOWrapper(buffer, encoding="cp1252") as stream:
+                with patch("sys.stdout", stream):
+                    state = collect(path, max_reviews=1, delay=0,
+                                    fetch=lambda _: {"reviews": [review(1)], "cursor": "next"})
+                    result = main(["demo", "--output", str(Path(directory) / "demo")])
+                stream.flush()
+                self.assertIn(b"\\u", buffer.getvalue())
+            self.assertEqual(state["count"], 1)
+            self.assertEqual(read_records(path)[0]["review"], "音乐很好听")
+            self.assertEqual(result, 0)
+            self.assertTrue((Path(directory) / "demo" / "report.html").exists())
+
     def test_resume_replays_page_without_losing_same_text_reviews(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "reviews.jsonl"

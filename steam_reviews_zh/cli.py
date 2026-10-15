@@ -5,6 +5,7 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 
 from .api import collect, write_json
+from .console import configure_console
 
 
 def create_demo(path):
@@ -38,6 +39,7 @@ def create_demo(path):
 
 
 def main(argv=None):
+    configure_console()
     parser = argparse.ArgumentParser(description="UNDERTALE 中文 Steam 评论分析（Python 3.10+）")
     commands = parser.add_subparsers(dest="command", required=True)
     fetch = commands.add_parser("fetch", help="采集公开评论，默认 UNDERTALE 简体中文")
